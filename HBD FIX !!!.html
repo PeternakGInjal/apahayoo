@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Surat Ulang Tahun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&family=Dancing+Script&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(135deg, #ffe6f0, #ffe0fb);
+      overflow-x: hidden;
+      overflow-y: auto;
+      touch-action: manipulation;
+    }
+
+    .heart {
+      position: fixed;
+      top: -20px;
+      font-size: 20px;
+      color: #ff69b4;
+      animation: fall 5s linear infinite;
+      opacity: 0.8;
+      z-index: 0;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(120vh) rotate(360deg); opacity: 0; }
+    }
+
+    .container {
+      max-width: 600px;
+      margin: 80px auto;
+      background-color: #fff0f8;
+      border-radius: 20px;
+      box-shadow: 0 6px 25px rgba(255,182,193,0.4);
+      padding: 30px;
+      text-align: center;
+    }
+
+    .header h1 {
+      margin: 0;
+      padding: 20px;
+      background-color: #ffb6c1;
+      color: white;
+      font-size: 32px;
+      font-family: "Dancing Script", cursive;
+    }
+
+    .content p {
+      font-size: 18px;
+      margin: 20px 0;
+      color: #d63384;
+    }
+
+    .button {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      font-size: 16px;
+      border-radius: 10px;
+      margin: 10px auto;
+      cursor: pointer;
+      box-shadow: 0 3px 8px rgba(255,105,180,0.4);
+      display: block;
+      width: 100%;
+      max-width: 260px;
+    }
+
+    .button:hover {
+      background-color: #ff1493;
+    }
+
+    #gajadi {
+      position: absolute;
+    }
+
+    @media screen and (max-width: 480px) {
+      .header h1 { font-size: 26px; }
+      .content p { font-size: 16px; }
+      .button { font-size: 15px; padding: 10px 16px; }
+    }
+  </style>
+</head>
+<body ontouchstart="">
+
+<audio id="musik" preload="auto" src="https://cdn.pixabay.com/audio/2022/03/15/audio_4ee0a775b8.mp3" type="audio/mpeg" loop></audio>
+
+<script>
+  for (let i = 0; i < 30; i++) {
+    const heart = document.createElement("div");
+    heart.classList.add("heart");
+    heart.innerText = "💖";
+    heart.style.left = Math.random() * 100 + "vw";
+    heart.style.fontSize = Math.random() * 20 + 10 + "px";
+    heart.style.animationDuration = 4 + Math.random() * 3 + "s";
+    heart.style.animationDelay = Math.random() * 5 + "s";
+    document.body.appendChild(heart);
+  }
+
+  document.addEventListener("touchstart", () => {
+    document.getElementById("musik").play().catch(()=>{});
+  }, { once: true });
+</script>
+
+<div class="container" id="box">
+  <div class="header">
+    <h1>Surat Manis 🎀</h1>
+  </div>
+  <div class="content" id="konten">
+    <p>Mau tau gaa isi suratnya apa?</p>
+    <button id="iya" class="button" onclick="lanjutPertanyaan()">Mau 😍</button>
+    <button id="tidak" class="button" onclick="perbesarTombol()">Gamau 🙅‍♀️</button>
+  </div>
+</div>
+
+<script>
+  let iyaSize = 16;
+  function perbesarTombol() {
+    iyaSize += 4;
+    const iya = document.getElementById("iya");
+    iya.style.fontSize = iyaSize + "px";
+    iya.style.padding = (iyaSize / 2) + "px " + (iyaSize * 1.5) + "px";
+  }
+
+  function lanjutPertanyaan() {
+    document.getElementById("konten").innerHTML = `
+      <p>Yakin mau baca suratnya? 😳</p>
+      <button class="button" onclick="bukaSurat()">Yakin Banget 💌</button>
+      <button id="gajadi" class="button" onclick="pindahTombol()">Ga jadi deh 😅</button>
+    `;
+    setTimeout(() => {
+      const btn = document.getElementById("gajadi");
+      btn.style.position = "absolute";
+      btn.style.left = "50%";
+      btn.style.top = "70%";
+      btn.style.transform = "translate(-50%, -50%)";
+    }, 50);
+  }
+
+  function bukaSurat() {
+    document.getElementById("konten").innerHTML = `
+      <h2>🎂 Happy Birthday, Sweetheart! 🎉</h2>
+      <p>Semoga ulang tahunmu seindah warna pelangi dan secerah cahaya mentari pagi.</p>
+      <p>Jangan lupa selalu tersenyum, karena dunia lebih indah dengan senyummu 💕</p>
+      <p>Selamat bertambah usia! Kamu luar biasa 🌸</p>
+    `;
+    efekConfetti();
+  }
+
+  function pindahTombol() {
+    const btn = document.getElementById("gajadi");
+    const box = document.getElementById("box");
+    const maxX = box.offsetWidth - btn.offsetWidth;
+    const maxY = box.offsetHeight - btn.offsetHeight;
+    const randX = Math.random() * maxX;
+    const randY = Math.random() * maxY;
+    btn.style.left = `${randX}px`;
+    btn.style.top = `${randY}px`;
+  }
+
+  function efekConfetti() {
+    const box = document.getElementById("box");
+    const rect = box.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    for (let i = 0; i < 150; i++) {
+      const confetti = document.createElement("div");
+      confetti.style.position = "fixed";
+      confetti.style.left = `${centerX}px`;
+      confetti.style.top = `${centerY}px`;
+      confetti.style.width = "16px";
+      confetti.style.height = "16px";
+      confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 65%)`;
+      confetti.style.borderRadius = Math.random() > 0.5 ? "50%" : "0%";
+      confetti.style.boxShadow = "0 0 6px rgba(255,255,255,0.8)";
+      confetti.style.pointerEvents = "none";
+      confetti.style.zIndex = 999;
+
+      const angle = Math.random() * 2 * Math.PI;
+      const distance = Math.random() * 400 + 100;
+      const xMove = Math.cos(angle) * distance;
+      const yMove = Math.sin(angle) * distance;
+      const rotate = Math.random() * 720 - 360;
+
+      confetti.animate([
+        { transform: "translate(0, 0) rotate(0deg)", opacity: 1 },
+        { transform: `translate(${xMove}px, ${yMove}px) rotate(${rotate}deg)`, opacity: 0 }
+      ], {
+        duration: 1200 + Math.random() * 800,
+        easing: "ease-out",
+        fill: "forwards"
+      });
+
+      document.body.appendChild(confetti);
+      setTimeout(() => confetti.remove(), 2500);
+    }
+  }
+</script>
+
+</body>
+</html>
